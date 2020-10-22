@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace CA201022
 {
@@ -15,6 +16,7 @@ namespace CA201022
         static string ki = "Üdvözlet a győzőnek!";
         static void Main()
         {
+            
             //tömbök feltöltése
             int[] a = new int[100]; TombFeltolt(a, 30);
             int[] b = new int[500]; TombFeltolt(a, 1234);
@@ -60,6 +62,50 @@ namespace CA201022
             {
                 Console.WriteLine($"Az első 1-re végződő {i}-jegyű prímszám a(z) {PrimKeres(i)}");
             }
+
+            Console.ReadKey();
+            Console.Clear();
+
+            //lnko
+            Console.WriteLine($"A(z) 100 és a(z) 150 legnagyobb közös osztója a(z) {KozosOszto(100, 150)}.");
+            Console.WriteLine($"A(z) 200 és a(z) 340 legnagyobb közös osztója a(z) {KozosOszto(200, 340)}.");
+            Console.WriteLine($"A(z) 1000 és a(z) 1368 legnagyobb közös osztója a(z) {KozosOszto(1000, 1368)}.");
+
+            Console.ReadKey();
+            Console.Clear();
+
+            //megszámlálás
+            int[] f = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 };
+            Console.WriteLine($"A tömbben található {Megszamlalas(f, 1)} db 1-es");
+            Console.WriteLine($"A tömbben található {Megszamlalas(f, 2)} db 2-es");
+            Console.WriteLine($"A tömbben található {Megszamlalas(f, 3)} db 3-as");
+            Console.WriteLine($"A tömbben található {Megszamlalas(f, 4)} db 4-es");
+            Console.WriteLine($"A tömbben található {Megszamlalas(f, 8)} db 8-as");
+
+            Console.ReadKey();
+            Console.Clear();
+
+            //megegyezik
+            Console.WriteLine($"A(z) él és a(z) élet szavakban {Megegyezes("él", "élet")} db betű egyezik meg.");
+            Console.WriteLine($"A(z) vágy és a(z) ágy szavakban {Megegyezes("vágy", "ágy")} db betű egyezik meg.");
+            Console.WriteLine($"A(z) álmatlanság és a(z) bizalmatlanság szavakban {Megegyezes("álmatlanság", "bizalmatlanság")} db betű egyezik meg.");
+
+            Console.ReadKey();
+            Console.Clear();
+            
+            //hány százaléka telt el az évnek?
+            DateTime time = DateTime.Now;
+            Console.WriteLine($"Ennek az évnek eddig eltelt a(z) {Eltelt(time.Year, time.Month, time.Day, time.Hour, time.Minute)}%-a");
+            Console.WriteLine($"1999. Május 23-án, 13:26-kor az év {Eltelt(1999, 5, 23, 13, 26)}%-a telt el");
+
+            Console.ReadKey();
+            Console.Clear();
+            
+            //hangrend
+            Hangrend("autó");
+            Hangrend("teniszütő");
+            Hangrend("ez az utolsó előtti feladat :)");
+            
 
             Console.ReadKey();
         }
@@ -172,6 +218,62 @@ namespace CA201022
                 index++;
             } while (index <= maxSzam && !PrimSzam(index) && !(index % 10 == 1));
             return index;
+        }
+
+        static int KozosOszto(int a, int b)
+        {
+            int lnko = 1;
+            int kisebb = a < b ? a : b;
+            for (int i = 1; i < kisebb; i++)
+            {
+                if (a % i == 0 && b % i == 0) lnko = i;
+            }
+            return lnko;
+        }
+
+        static int Megszamlalas(int[] tomb, int elem)
+        {
+            int c = 0;
+            for (int i = 0; i < tomb.Length; i++)
+            {
+                if (tomb[i] == elem) c++;
+            }
+            return c;
+        }
+
+        static int Megegyezes(string a, string b)
+        {
+            int c = 0;
+            int rovidebb = a.Length < b.Length ? a.Length : b.Length;
+            for (int i = 0; i < rovidebb; i++)
+            {
+                if (a[i] == b[i]) c++;
+            }
+            return c;
+        }
+
+        static double Eltelt(int ev, int honap, int nap, int ora, int perc)
+        {
+            double szazalek = 0;
+            szazalek += (double)honap / 12 * 100;
+            szazalek += ((double)nap-1) / DateTime.DaysInMonth(ev, honap) * 100 / 12;
+            szazalek += (double)ora / 24 * 100 / 12 / DateTime.DaysInMonth(ev, honap);
+            szazalek += (double)perc / 60 * 100 / 12 / DateTime.DaysInMonth(ev, honap) / 24;
+            return szazalek;
+        }
+
+        static void Hangrend(string a)
+        {
+            a = a.ToLower();
+            bool magas = false, mely = false;
+
+            //magas teniszütő, mély autó
+            if (a.Contains("e") || a.Contains("é") || a.Contains("i") || a.Contains("í") || a.Contains("ü") || a.Contains("ű") || a.Contains("ö") || a.Contains("ő")) magas = true;
+            if (a.Contains("a") || a.Contains("á") || a.Contains("u") || a.Contains("ú") || a.Contains("o") || a.Contains("ó")) mely = true;
+
+            if (magas && mely) Console.WriteLine($"\"{a}\" : vegyes hangrendű");
+            else if (magas) Console.WriteLine($"\"{a}\" : magas hangrendű");
+            else Console.WriteLine($"\"{a}\" : mély hangrendű");
         }
     }
 }
