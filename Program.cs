@@ -25,7 +25,7 @@ namespace CA201022
             int[] e = new int[4321]; PermutacioN(e, e.Length);
 
             //téglalapok
-            /*
+            
             Teglalap(78, 23, ConsoleColor.Red);
             Teglalap(74, 19, ConsoleColor.Blue);
             Teglalap(70, 15, ConsoleColor.Green);
@@ -35,7 +35,6 @@ namespace CA201022
 
             Console.ReadKey();
             Console.Clear();
-            */
 
             //osztók
             Console.Write("Adjon meg egy egész számot: ");
