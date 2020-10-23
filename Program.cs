@@ -106,6 +106,16 @@ namespace CA201022
             Hangrend("teniszütő");
             Hangrend("ez az utolsó előtti feladat :)");
             
+            Console.ReadKey();
+            Console.Clear();
+
+            //páros rendezés
+            int[] g = { 1, 2, 3, 4, 5, 2, 3, 4, 5, 6, 3, 4, 5, 6, 7, 4, 5, 6, 7, 8, 5, 6, 7, 8, 9 };
+            Console.Write("Rendezés előtt: ");
+            TombKiir(g);
+            g = ParosRendez(g);
+            Console.Write("\nRendezés után: ");
+            TombKiir(g);
 
             Console.ReadKey();
         }
@@ -274,6 +284,40 @@ namespace CA201022
             if (magas && mely) Console.WriteLine($"\"{a}\" : vegyes hangrendű");
             else if (magas) Console.WriteLine($"\"{a}\" : magas hangrendű");
             else Console.WriteLine($"\"{a}\" : mély hangrendű");
+        }
+
+        static int[] ParosRendez(int[] a)
+        {
+            int[] b = new int[a.Length];
+            int index = 0;
+            List<int> volt = new List<int>();
+            for (int i = 0; i < a.Length; i++)
+            {
+                if (a[i] % 2 == 0)
+                {
+                    b[index] = a[i];
+                    index++;
+                    volt.Add(i);
+                }
+            }
+            for (int i = 0; i < a.Length; i++)
+            {
+                if (!volt.Contains(i))
+                {
+                    b[index] = a[i];
+                    index++;
+                }
+            }
+
+            return b;
+        }
+
+        static void TombKiir(int[] a)
+        {
+            foreach (int elem in a)
+            {
+                Console.Write($"{elem} ");
+            }
         }
     }
 }
